@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#140c22">
+  <meta name="description" content="在浏览器中直接游玩的宝石三消游戏。交换相邻宝石，连成三个即可消除。">
+  <title>宝石消消乐</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon points='32,4 58,26 32,60 6,26' fill='%23ff4d6d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <noscript><p class="noscript">请启用 JavaScript 后，再打开本页面玩宝石消消乐。</p></noscript>
+  <main class="app">
+    <header class="top">
+      <div>
+        <h1>宝石消消乐</h1>
+        <p class="subtitle">交换相邻宝石，连成三个或更多</p>
+      </div>
+      <button type="button" id="restart" class="btn">重新开始</button>
+    </header>
+
+    <section class="stats" aria-label="对局信息">
+      <div class="stat" id="score-stat">
+        <span>分数</span>
+        <strong id="score">0</strong>
+      </div>
+      <div class="stat" id="moves-stat">
+        <span>剩余步数</span>
+        <strong id="moves">30</strong>
+      </div>
+      <div class="stat">
+        <span>最高分</span>
+        <strong id="best">0</strong>
+      </div>
+    </section>
+
+    <div class="board-wrap" id="board-wrap">
+      <div id="board" class="board" role="application" aria-label="宝石棋盘。点击两个相邻宝石，或按住滑动来交换。">
+        <div class="cells" id="cells"></div>
+        <div class="gems" id="gems"></div>
+        <div class="fx" id="fx"></div>
+        <div id="combo" class="combo" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <p id="status" class="status" role="status"></p>
+
+    <details class="help">
+      <summary>怎么玩</summary>
+      <ul>
+        <li>点击一颗宝石，再点击相邻的一颗，即可交换。也可以按住向相邻格拖动或滑动。</li>
+        <li>横排或竖排连成 3 个及以上相同宝石就会消除，上方宝石落下，空位从顶部补充。</li>
+        <li>一次交换引发的连续消除会计为连击，连击倍率越来越高。</li>
+        <li>四连、五连有额外加分。不能消除的交换会自动换回，且不消耗步数。</li>
+        <li>关注上方的剩余步数，用完即结束。没有可走的步时，棋盘会自动重排。</li>
+        <li>停手数秒后，会闪烁提示一对可以交换的宝石。</li>
+      </ul>
+    </details>
+    <p id="live" class="sr-only" aria-live="polite"></p>
+  </main>
+
+  <div id="overlay" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="over-title">
+      <h2 id="over-title">游戏结束</h2>
+      <p>步数已用完</p>
+      <p class="final">本局得分 <strong id="final-score">0</strong></p>
+      <p id="record" class="record" hidden>新纪录！</p>
+      <button type="button" id="again" class="btn">再来一局</button>
+    </div>
+  </div>
+
+  <svg class="sprite" aria-hidden="true">
+    <defs>
+      <radialGradient id="g0" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#ffe4ea"/>
+        <stop offset="42%" stop-color="#ff3b5c"/>
+        <stop offset="100%" stop-color="#9d1238"/>
+      </radialGradient>
+      <radialGradient id="g1" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#e4ffef"/>
+        <stop offset="45%" stop-color="#1fbf78"/>
+        <stop offset="100%" stop-color="#0b6b45"/>
+      </radialGradient>
+      <radialGradient id="g2" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#e7f2ff"/>
+        <stop offset="48%" stop-color="#3b82f6"/>
+        <stop offset="100%" stop-color="#1e3a8a"/>
+      </radialGradient>
+      <radialGradient id="g3" cx="35%" cy="28%" r="75%">
+        <stop offset="0%" stop-color="#fff6dc"/>
+        <stop offset="46%" stop-color="#ffb703"/>
+        <stop offset="100%" stop-color="#c45c00"/>
+      </radialGradient>
+      <radialGradient id="g4" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#f6ecff"/>
+        <stop offset="46%" stop-color="#a855f7"/>
+        <stop offset="100%" stop-color="#5b21b6"/>
+      </radialGradient>
+      <radialGradient id="g5" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#fff9db"/>
+        <stop offset="48%" stop-color="#ffd60a"/>
+        <stop offset="100%" stop-color="#d97706"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <script src="js/logic.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
