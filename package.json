@@ -1,0 +1,8 @@
+{
+  "name": "gem-match3",
+  "private": true,
+  "description": "浏览器里直接打开就能玩的宝石消消乐",
+  "scripts": {
+    "test": "node --test tests/logic.test.js"
+  }
+}
